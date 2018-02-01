@@ -1,0 +1,18 @@
+.App {
+  text-align: center;
+}
+
+h1, h2 {
+  padding: 10px;
+}
+
+#calendarDiv {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 10px;
+  height: 600px;
+}
+
+#eventButton {
+  margin-bottom: 10px;
+}

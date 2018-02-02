@@ -1,12 +1,12 @@
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Modal,  ModalHeader, ModalBody} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
 export default class EventModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
     };
   }
 
@@ -37,16 +37,16 @@ export default class EventModal extends Component {
       recurringElement = (<p>Recurring Days: {recurringDays.toString()}</p>);
     }
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
-        <ModalHeader toggle={this.props.toggle}>{title}</ModalHeader>
-        <ModalBody>
+      <Modal show={this.props.isOpen} onHide={this.props.close} >
+        <Modal.Header closeButton>{title}</Modal.Header>
+        <Modal.Body>
           <p>Description: {desc}</p>
           <p>Start Date: {startDate}</p>
           <p>End Date: {endDate}</p>
           <p>Start Time: {startTime}</p>
           <p>End Time: {endTime}</p>
           {recurringElement}
-        </ModalBody>
+        </Modal.Body>
       </Modal>
     );
   }
@@ -63,3 +63,4 @@ EventModal.propTypes = {
   toggleModal: PropTypes.func,
   evt: PropTypes.object
 };
+

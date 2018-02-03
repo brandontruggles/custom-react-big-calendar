@@ -17,8 +17,8 @@ export default class Calendar extends Component {
       newModalOpen  : false,
       selectedEvent : null,
       events        : [ 
-           {id: 0, title: "test event", start: moment().toDate(), end: moment().toDate(), startTime: moment(), endTime: moment(), recurringDays: [0, 1], desc: "Description", color: "#FF0000"},
-           {id: 1, title: "test event 2", start: moment().toDate(), end: moment().toDate(), startTime: moment(), endTime: moment(), recurringDays: [2, 4], desc: "Description"}
+           {id: 0, title: "test event", start: moment().toDate(), end: moment().toDate(), startTime: moment().hours() * 3600, endTime: moment().hours() * 3600 + 5 * 60, recurringDays: [0, 1], desc: "Description", color: "#FF0000"},
+           {id: 1, title: "test event 2", start: moment().toDate(), end: moment().toDate(), startTime: moment().add(1, "hours").hours() * 3600, endTime: moment().add(1, "hours").hours() * 3600 + 5 * 60, recurringDays: [2, 4], desc: "Description"}
       ]
     };
   }

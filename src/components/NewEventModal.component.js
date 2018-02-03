@@ -17,8 +17,8 @@ export default class NewEventModal extends Component {
       date          : moment().format(),
       end_date      : moment().format(),
       type          : "Single",
-      timeIn        : (7 * 3600),
-      timeOut       : (7 * 3600) + (5 * 60),
+      timeIn        : (moment().hour() * 3600),
+      timeOut       : (moment().hour() * 3600) + (5 * 60),
       description   : "",
       recurringDays : [],
       submitted: true
@@ -29,7 +29,7 @@ export default class NewEventModal extends Component {
 
   componentWillReceiveProps(newProps) {
     if(newProps.isOpen && !this.props.isOpen && this.state.submitted) {
-      this.setState({title: "", date: moment().format(), end_date: moment().format(), type: "Single", timeIn: (7 * 3600), timeOut: (7 * 3600) + (5 * 60), description: "", recurringDays: [], submitted: false});
+      this.setState({title: "", date: moment().format(), end_date: moment().format(), type: "Single", timeIn: (moment().hour() * 3600), timeOut: (moment().hour() * 3600) + (5 * 60), description: "", recurringDays: [], submitted: false});
     }
   }
 

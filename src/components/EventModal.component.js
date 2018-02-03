@@ -26,9 +26,41 @@ export default class EventModal extends Component {
       var dateEndIndex = this.props.evt.start.toString().indexOf(":") - 3;
       startDate = this.props.evt.start.toString().substring(0, dateEndIndex);
       dateEndIndex = this.props.evt.end.toString().indexOf(":") - 3;
-      endDate = this.props.evt.end.toString().substring(0, dateEndIndex);
-      startTime = this.props.evt.startTime;
-      endTime = this.props.evt.endTime;
+      endDate = this.props.evt.end.toString().substring(0, dateEndIndex); 
+      var startHours = Math.floor(this.props.evt.startTime/3600);
+      var startMinutes = this.props.evt.startTime%(3600 * startHours)/60;
+      var startHoursText = "";
+      var startMinutesText = "";
+      if(startHours < 10) {
+        startHoursText = "0" + startHours;
+      }
+      else {
+        startHoursText = "" + startHours;
+      }
+      if(startMinutes < 10) {
+        startMinutesText = "0" + startMinutes;
+      }
+      else {
+        startMinutesText = "" + startMinutes;
+      }
+      startTime = startHoursText + ":" + startMinutesText;
+      var endHours = Math.floor(this.props.evt.endTime/3600);
+      var endMinutes = this.props.evt.endTime%(3600 * endHours)/60;
+      var endHoursText = "";
+      var endMinutesText = "";
+      if(endHours < 10) {
+        endHoursText = "0" + endHours;
+      }
+      else {
+        endHoursText = "" + endHours;
+      }
+      if(endMinutes < 10) {
+        endMinutesText = "0" + endMinutes;
+      }
+      else {
+        endMinutesText = "" + endMinutes;
+      }
+      endTime = endHoursText + ":" + endMinutesText;
       for(var day of this.props.evt.recurringDays) {
         recurringDays.push(days[day]);
       }
@@ -44,8 +76,8 @@ export default class EventModal extends Component {
           <p>Description: {desc}</p>
           <p>Start Date: {startDate.toString()}</p>
           <p>End Date: {endDate.toString()}</p>
-          <p>Start Time: {moment().seconds(startTime).format("H:mm")}</p>
-          <p>End Time: {moment().seconds(endTime).format("H:mm")}</p>
+          <p>Start Time: {startTime}</p>
+          <p>End Time: {endTime}</p>
           {recurringElement}
         </Modal.Body>
       </Modal>

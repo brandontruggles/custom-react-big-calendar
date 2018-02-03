@@ -21,17 +21,11 @@ export default class NewEventModal extends Component {
       recurringDays : []
     };
     this.processNewEvent = this.processNewEvent.bind(this);
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.setState({title: "", description: "", startDate: moment(), endDate: moment(), recuringDays: []});
-  }
-
-  componentWillUpdate(nextProps, nextState) {
+    this.handleEndChange = this.handleEndChange.bind(this);
   }
 
   processNewEvent() {
-    var evt = {id: -1, title: this.state.title, start: this.state.startDate.toDate(), end: this.state.endDate.toDate(), startTime: "00:00", endTime: "00:30", recurringDays: this.state.recurringDays, desc: this.state.description};
+    var evt = {id: -1, title: this.state.title, start: this.state.date, end: this.state.end_date, startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, desc: this.state.description, type: this.state.type};
     this.props.addEvent(evt);
   }
 
@@ -44,11 +38,14 @@ export default class NewEventModal extends Component {
 	}
 
   handleEndChange(date) {
-    this.setState({endDate: date});
+    this.setState({end_date: date});
   }
 
   handleDate = (e) => {
     this.setState({date: moment(e).format()});
+    if(this.state.type === "Single") {
+      this.setState({end_date: moment(e).format()});
+    }
   }
 
   handleType = (e) => {
@@ -56,13 +53,12 @@ export default class NewEventModal extends Component {
     if(this.state.type === "Single" && e.target.value !== "Single") {
       return this.setState({type: e.target.value, end_date: moment().format()});
     } else if(this.state.type !== "Single" && e.target.value === "Single") {
-      return this.setState({type: e.target.value, date: moment().format()});
+      return this.setState({type: e.target.value, date: moment().format(), end_date: moment().format()});
     }
     this.setState({type: e.target.value});
   }
 
   handleDaySelectChange = (e) => {
-    console.log("Testing Recurring Days", e);
     this.setState({recurringDays: e});
   }
 
@@ -102,7 +98,7 @@ export default class NewEventModal extends Component {
             <FormGroup>
               <Label>End Date: </Label>
               <DatePicker autoComplete="on" placeholder="Date" 
-              value={this.state.end_date} onChange={this.endDate} dateFormat="MM-DD-YYYY"/>
+              value={this.state.end_date} onChange={this.handleEndChange} dateFormat="MM-DD-YYYY"/>
             </FormGroup>
           }
 

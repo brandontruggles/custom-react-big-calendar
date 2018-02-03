@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Modal } from 'react-bootstrap';
 
 export default class EventModal extends Component {
@@ -41,10 +42,10 @@ export default class EventModal extends Component {
         <Modal.Header closeButton>{title}</Modal.Header>
         <Modal.Body>
           <p>Description: {desc}</p>
-          <p>Start Date: {startDate}</p>
-          <p>End Date: {endDate}</p>
-          <p>Start Time: {startTime}</p>
-          <p>End Time: {endTime}</p>
+          <p>Start Date: {startDate.toString()}</p>
+          <p>End Date: {endDate.toString()}</p>
+          <p>Start Time: {moment().seconds(startTime).format("H:mm")}</p>
+          <p>End Time: {moment().seconds(endTime).format("H:mm")}</p>
           {recurringElement}
         </Modal.Body>
       </Modal>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import moment from 'moment';
-import Calendar from './components/Calendar.component';
-import EventModal from './components/EventModal.component';
-import NewEventModal from './components/NewEventModal.component';
+import Calendar from './components/Calendar/Calendar.component';
+import EventModal from './components/Calendar/EventModal.component';
+import NewEventModal from './components/Calendar/NewEventModal.component';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -15,8 +15,8 @@ class App extends Component {
       newModalOpen: false,
       selectedEvent: null,
       events: [ 
-           {id: 0, title: "test event", start: moment().toDate(), end: moment().toDate(), startTime: moment(), endTime: moment(), recurringDays: [0, 1], recurringMonths: [3,4], desc: "Description"},
-           {id: 1, title: "test event 2", start: moment().toDate(), end: moment().toDate(), startTime: moment(), endTime: moment(), recurringDays: [2, 4], recurringMonths: [0], desc: "Description"}
+           {id: 0, title: "test event", start: moment().toDate(), end: moment().toDate(), startTime: moment(), endTime: moment(), recurringDays: [0, 1], desc: "Description"},
+           {id: 1, title: "test event 2", start: moment().toDate(), end: moment().toDate(), startTime: moment(), endTime: moment(), recurringDays: [2, 4], desc: "Description"}
       ]
     };
     this.toggleModal = this.toggleModal.bind(this);
@@ -48,17 +48,34 @@ class App extends Component {
       recurringDayValues.push(obj["value"]);
     }
     evt["recurringDays"] = recurringDayValues;
-    var recurringMonths = evt["recurringMonths"];
-    var recurringMonthValues = [];
-    for(let obj of recurringMonths) {
-      recurringMonthValues.push(obj["value"]);
+    if(evt["type"] === "BI") {
+
     }
-    evt["recurringMonths"] = recurringDayValues;
-    evt["start"].setHours(evt["startTime"].hours());
-    evt["start"].setMinutes(evt["startTime"].minutes());
-    evt["end"].setHours(evt["endTime"].hours());
-    evt["end"].setMinutes(evt["endTime"].minutes());
+    else if(evt["type"] === "Week") {
+      var startDate = moment(evt["start"]);
+      var endDate = moment(evt["end"]);
+      while(startDate.isBefore(endDate)) {
+        console.log(moment(startDate));
+        startDate = startDate.add(1, "days");
+        if(recurringDayValues.indexOf(startDate.day()) != -1) {
+          var evtCopy = Object.assign({}, evt);
+          evtCopy["start"] = startDate.toDate();
+          evtCopy["end"] = startDate.toDate();
+          console.log(evtCopy);
+          events.push(evtCopy);
+        }
+      }
+    }
+    else if(evt["type"] === "Month") {
+
+    }
+    else {
     events.push(evt);
+    }
+    //evt["start"].setHours(evt["startTime"].hours());
+    //evt["start"].setMinutes(evt["startTime"].minutes());
+    //evt["end"].setHours(evt["endTime"].hours());
+    //evt["end"].setMinutes(evt["endTime"].minutes());
     this.setState({events: events});
     this.toggleNewModal();
   }

@@ -55,7 +55,7 @@ export default class NewEventModal extends Component {
     } else if(this.state.type !== "Single" && e.target.value === "Single") {
       return this.setState({type: e.target.value, date: moment().format(), end_date: moment().format()});
     }
-    this.setState({type: e.target.value});
+    this.setState({type: e.target.value, date: moment().format(), end_date: moment().format()});
   }
 
   handleDaySelectChange = (e) => {

@@ -49,7 +49,18 @@ class App extends Component {
     }
     evt["recurringDays"] = recurringDayValues;
     if(evt["type"] === "BI") {
-
+      var startDate = moment(evt["start"]);
+      var endDate = moment(evt["end"]);
+      while(startDate.isBefore(endDate)) {
+        console.log(moment(startDate));
+        startDate = startDate.add(1, "days");
+        if(recurringDayValues.indexOf(startDate.day()) != -1) {
+          var evtCopy = Object.assign({}, evt);
+          evtCopy["start"] = startDate.toDate();
+          evtCopy["end"] = startDate.toDate();
+          events.push(evtCopy);
+        }
+      }
     }
     else if(evt["type"] === "Week") {
       var startDate = moment(evt["start"]);
@@ -61,13 +72,20 @@ class App extends Component {
           var evtCopy = Object.assign({}, evt);
           evtCopy["start"] = startDate.toDate();
           evtCopy["end"] = startDate.toDate();
-          console.log(evtCopy);
           events.push(evtCopy);
         }
       }
     }
     else if(evt["type"] === "Month") {
-
+      var startDate = moment(evt["start"]);
+      var endDate = moment(evt["end"]);
+      while(startDate.isBefore(endDate)) {
+        startDate = startDate.add(1, "month");
+        var evtCopy = Object.assign({}, evt);
+        evtCopy["start"] = startDate.toDate();
+        evtCopy["end"] = startDate.toDate();
+        events.push(evtCopy);
+      }
     }
     else {
     events.push(evt);

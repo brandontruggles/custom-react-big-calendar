@@ -1,97 +1,146 @@
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Modal,  ModalHeader, ModalBody, Button, Input, Label} from 'reactstrap';
-import DatePicker from 'react-datepicker';
-import TimePicker from 'rc-time-picker';
+import { Modal, Button, FormControl, FormGroup, Label} from 'react-bootstrap';
+import DatePicker from 'react-bootstrap-date-picker';
+import TimePicker from 'react-bootstrap-time-picker';
 import Select from 'react-select';
 import moment from 'moment';
 
 import 'react-select/dist/react-select.css';
-import 'rc-time-picker/assets/index.css';
-import 'react-datepicker/dist/react-datepicker.css';
 
 export default class NewEventModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
-      description: "",
-      startDate: moment(),
-      endDate: moment(),
-      startTime: moment(),
-      endTime: moment(),
-      recurringDays: [],
-      recurringMonths: []
+      title         : "",
+      date          : moment().format(),
+      end_date      : moment().format(),
+      type          : "Single",
+      timeIn        : (7 * 3600),
+      timeOut       : (7 * 3600) + (5 * 60),
+      description   : "",
+      recurringDays : [],
+      submitted: true
     };
     this.processNewEvent = this.processNewEvent.bind(this);
-    this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
-    this.handleStartTimeChange = this.handleStartTimeChange.bind(this);
-    this.handleEndTimeChange = this.handleEndTimeChange.bind(this);
-    this.handleDaySelectChange = this.handleDaySelectChange.bind(this);
-    this.handleMonthSelectChange = this.handleMonthSelectChange.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({title: "", description: "", startDate: moment(), endDate: moment(), startTime: moment(), endTime: moment(), recurringDays: [], recurringMonths: []});
+    if(newProps.isOpen && !this.props.isOpen && this.state.submitted) {
+      this.setState({title: "", date: moment().format(), end_date: moment().format(), type: "Single", timeIn: (7 * 3600), timeOut: (7 * 3600) + (5 * 60), description: "", recurringDays: [], submitted: false});
+    }
   }
 
   processNewEvent() {
-    var evt = {id: -1, title: this.state.title, start: this.state.startDate.toDate(), end: this.state.endDate.toDate(), startTime: this.state.startTime, endTime: this.state.endTime, recurringDays: this.state.recurringDays, recurringMonths: this.state.recurringMonths, desc: this.state.description};
-    this.props.addEvent(evt);
+    if(this.state.title !== "" && this.state.description !== "" && !(this.state.recurringDays.length === 0 && (this.state.type === "Week" || this.state.type === "BI"))) {
+      var evt = {id: -1, title: this.state.title, start: this.state.date, end: this.state.end_date, startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, desc: this.state.description, type: this.state.type};
+      this.setState({submitted: true});
+      this.props.addEvent(evt);
+    }
+    if(this.state.title === "") {
+      
+    }
+    if(this.state.description === "") {
+
+    }
+    if(this.state.recurringDays.length === 0 && (this.state.type === "Week" || this.state.type === "BI")) {
+      
+    }
   }
 
-  handleStartChange(date) {
-    this.setState({startDate: date});
-  }
+	timeIn = (e) => {
+		this.setState({timeIn: e});
+	}
+
+	timeOut = (e) => {
+		this.setState({timeOut: e});
+	}
 
   handleEndChange(date) {
-    this.setState({endDate: date});
+    this.setState({end_date: date});
   }
 
-  handleStartTimeChange(time) {
-    this.setState({startTime: time});
-    this.props.forceOpen();
+  handleDate = (e) => {
+    this.setState({date: moment(e).format()});
+    if(this.state.type === "Single") {
+      this.setState({end_date: moment(e).format()});
+    }
   }
 
-  handleEndTimeChange(time) {
-    this.setState({endTime: time});
-    this.props.forceOpen();
+  handleType = (e) => {
+    if(this.state.type === "Single" && e.target.value !== "Single") {
+      return this.setState({type: e.target.value, end_date: moment().format()});
+    } else if(this.state.type !== "Single" && e.target.value === "Single") {
+      return this.setState({type: e.target.value, date: moment().format(), end_date: moment().format()});
+    }
+    this.setState({type: e.target.value, date: moment().format(), end_date: moment().format()});
   }
 
-  handleDaySelectChange(options) {
-    this.setState({recurringDays: options});
-  }
-
-  handleMonthSelectChange(options) {
-    this.setState({recurringMonths: options});
+  handleDaySelectChange = (e) => {
+    this.setState({recurringDays: e});
   }
 
   render() {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
-        <ModalHeader toggle={this.props.toggle}>New Calendar Event</ModalHeader>
-        <ModalBody>
-          <Label>Title:</Label>
-          <Input placeholder="Your event title here..." onChange={(evt)=>{this.setState({title: evt.target.value})}}/>
-          <Label>Description:</Label>
-          <Input placeholder="Your event description here..." onChange={(evt)=>{this.setState({description: evt.target.value})}}/>
+      <Modal show={this.props.isOpen} onHide={this.props.close}>
+        <Modal.Header closeButton>New Calendar Event</Modal.Header>
+        <Modal.Body>
+          <FormGroup>
+            <Label>Event Type:</Label>
+            <FormControl componentClass="select" value={this.state.type} onChange={this.handleType}>
+              <option value="Single">Single</option>
+              <option value="Week">Weekly</option>
+              <option value="BI">BI-Weekly</option>
+              <option value="Month">Monthly</option>
+            </FormControl>
+          </FormGroup>
+
+          <FormGroup>
+            <Label>Title:</Label>
+            <FormControl placeholder="Your event title here..." onChange={(evt)=>{this.setState({title: evt.target.value})}}/>
+          </FormGroup>
+
+          <FormGroup>
+            <Label>Description:</Label>
+            <FormControl placeholder="Your event description here..." onChange={(evt)=>{this.setState({description: evt.target.value})}}/>
+          </FormGroup>
+ 
+          <FormGroup>
+              <Label>Event Date</Label>
+              <DatePicker autoComplete="on" placeholder="Date" 
+              value={this.state.date} onChange={this.handleDate} dateFormat="MM-DD-YYYY"/>
+          </FormGroup>
+    
+          { this.state.type !== "Single" && 
+            <FormGroup>
+              <Label>End Date: </Label>
+              <DatePicker autoComplete="on" placeholder="Date" 
+              value={this.state.end_date} onChange={this.handleEndChange} dateFormat="MM-DD-YYYY"/>
+            </FormGroup>
+          }
+
+          <FormGroup>
+            <Label>Starting Time: </Label>
+						<TimePicker value={this.state.timeIn} onChange={this.timeIn} step={5} start={'07:00 AM'} />
+          </FormGroup>
+          
+          <FormGroup>
+            <Label>Ending Time:</Label>
+						<TimePicker value={this.state.timeOut} onChange={this.timeOut} step={5} start={'07:05 AM'} />
+          </FormGroup>
+
+          { (this.state.type === "Week" || this.state.type === "BI") && 
+            <FormGroup>
+            <Label>Recurring Days:</Label><Select multi options={[{label: "Sunday", value: 0}, {label: "Monday", value: 1}, {label: "Tuesday", value: 2}, {label: "Wednesday", value: 3}, {label: "Thursday", value: 4}, {label: "Friday", value: 5}, {label: "Saturday", value: 6}]} value={this.state.recurringDays} onChange={this.handleDaySelectChange} />
+            </FormGroup>
+          }
           <br/>
-          <Label>Start Date: </Label><DatePicker selected={this.state.startDate} dateFormat="DD-MM-YYYY" onChange={this.handleStartChange}/>
-          <br/>
-          <Label>End Date: </Label><DatePicker selected={this.state.endDate} dateFormat="DD-MM-YYYY" onChange={this.handleEndChange}/>
-          <br/>
-          <Label>Start Time: </Label><TimePicker defaultValue={this.state.startTime} onChange={this.handleStartTimeChange}/>
-          <br/>
-          <Label>End Time:</Label><TimePicker defaultValue={this.state.endTime} onChange={this.handleEndTimeChange}/>
-          <br/>
-          <Label>Recurring Days:</Label><Select multi options={[{label: "Sunday", value: 0}, {label: "Monday", value: 1}, {label: "Tuesday", value: 2}, {label: "Wednesday", value: 3}, {label: "Thursday", value: 4}, {label: "Friday", value: 5}, {label: "Saturday", value: 6}]} onChange={this.handleDaySelectChange} value={this.state.recurringDays}/>
-          <br/>
-          <Label>Recurring Months:</Label><Select multi options={[{label: "January", value: 0}, {label: "February", value: 1}, {label: "March", value: 2}, {label: "April", value: 3}, {label: "May", value: 4}, {label: "June", value: 5}, {label: "July", value: 6}, {label: "August", value: 7}, {label: "September", value: 8}, {label: "October", value: 9}, {label: "November", value: 10}, {label: "December", value: 11}]} onChange={this.handleMonthSelectChange} value={this.state.recurringMonths}/>
-          <br/>
-          <Button color="success" onClick={this.processNewEvent}>Add Event</Button>
-        </ModalBody>
+          <Button bsStyle="success" onClick={this.processNewEvent}>Add Event</Button>
+        </Modal.Body>
       </Modal>
+
     );
   }
 }
@@ -99,13 +148,12 @@ export default class NewEventModal extends Component {
 NewEventModal.defaultProps = {
   isOpen: false,
   toggleModal : null,
-  addEvent: null,
-  forceOpen: null
+  addEvent: null
 };
 
 NewEventModal.propTypes = {
   isOpen: PropTypes.bool,
   toggleModal: PropTypes.func,
-  addEvent: PropTypes.func,
-  forceOpen: PropTypes.func
+  addEvent: PropTypes.func
 };
+

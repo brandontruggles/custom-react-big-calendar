@@ -12,6 +12,15 @@ export default class Calendar extends BigCalendar {
     this.state = {
 
     };
+    this.propGetter = this.propGetter.bind(this);
+  }
+
+  propGetter(evt, start, end, isSelected) {
+    var style = {};
+    if(evt.color) {
+      style.backgroundColor = evt.color;
+    }
+    return {style: style};
   }
 
   render() {
@@ -19,6 +28,7 @@ export default class Calendar extends BigCalendar {
       <BigCalendar 
         events={this.props.events}
         onSelectEvent={this.props.onSelectEvent}
+        eventPropGetter={this.propGetter}
       />
     );
   }

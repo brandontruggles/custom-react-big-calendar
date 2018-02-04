@@ -62,7 +62,7 @@ export default class Calendar extends Component {
         }
         let nextDateDay = startDate.add(1, "days").day();
         if(nextDateDay === startDateDay) {
-            startDate = startDate.add(8, "days");
+            startDate = startDate.add(1, "weeks");
         }
         else {
             startDate = startDate.add(1, "days");

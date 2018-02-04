@@ -39,6 +39,10 @@ export default class Calendar extends Component {
   addEvent = (evt) => { 
     var events = this.state.events;
     evt["id"] = events.length;
+    evt["start"].setHours(Math.floor(evt["startTime"]/3600));
+    evt["start"].setMinutes(evt["startTime"]%(3600 * Math.floor(evt["startTime"]/3600))/60);
+    evt["end"].setHours(Math.floor(evt["endTime"]/3600));
+    evt["end"].setMinutes(evt["endTime"]%(3600 * Math.floor(evt["endTime"]/3600))/60);
     var recurringDays = evt["recurringDays"];
     var recurringDayValues = [];
     for(let obj of recurringDays) {
@@ -99,7 +103,6 @@ export default class Calendar extends Component {
   deleteEvent = (id) => {
     for(var evt of this.state.events) {
       if(evt["id"] === id) {
-        var poppedEvents = this.state.events;
       
       }
     }

@@ -45,6 +45,8 @@ export default class Calendar extends Component {
     evt["end"].setMinutes(evt["endTime"]%(3600 * Math.floor(evt["endTime"]/3600))/60);
     var recurringDays = evt["recurringDays"];
     var recurringDayValues = [];
+    var recurrenceStart = evt["start"];
+    var recurrenceEnd = evt["end"];
     for(let obj of recurringDays) {
       recurringDayValues.push(obj["value"]);
     }
@@ -58,6 +60,8 @@ export default class Calendar extends Component {
           let evtCopy = Object.assign({}, evt);
           evtCopy["start"] = startDate.toDate();
           evtCopy["end"] = startDate.toDate();
+          evtCopy["recurrenceStart"] = recurrenceStart;
+          evtCopy["recurrenceEnd"] = recurrenceEnd;
           events.push(evtCopy);
         }
         let nextDateDay = startDate.add(1, "days").day();
@@ -77,6 +81,8 @@ export default class Calendar extends Component {
           let evtCopy = Object.assign({}, evt);
           evtCopy["start"] = startDate.toDate();
           evtCopy["end"] = startDate.toDate();
+          evtCopy["recurrenceStart"] = recurrenceStart;
+          evtCopy["recurrenceEnd"] = recurrenceEnd;
           events.push(evtCopy);
         }
         startDate = startDate.add(1, "days");
@@ -89,6 +95,8 @@ export default class Calendar extends Component {
         let evtCopy = Object.assign({}, evt);
         evtCopy["start"] = startDate.toDate();
         evtCopy["end"] = startDate.toDate();
+        evtCopy["recurrenceStart"] = recurrenceStart;
+        evtCopy["recurrenceEnd"] = recurrenceEnd;
         events.push(evtCopy);
         startDate = startDate.add(1, "month");
       }

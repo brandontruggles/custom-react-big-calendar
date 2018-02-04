@@ -47,7 +47,7 @@ export default class EventModal extends Component {
       var endHours = Math.floor(this.props.evt.endTime/3600);
       var endMinutes = this.props.evt.endTime%(3600 * endHours)/60;
       var endHoursText = "";
-      var endMinutesText = "";
+      var endMinutesText =  "";
       if(endHours < 10) {
         endHoursText = "0" + endHours;
       }
@@ -64,10 +64,22 @@ export default class EventModal extends Component {
       for(var day of this.props.evt.recurringDays) {
         recurringDays.push(days[day]);
       }
-    }
-    var recurringElement = (<p></p>);
-    if(recurringDays.length !== 0) {
-      recurringElement = (<p>Recurring Days: {recurringDays.toString()}</p>);
+      var recurringElement = (<p></p>);
+      if(recurringDays.length !== 0) {
+        recurringElement = (<p>Recurring Days: {recurringDays.toString()}</p>);
+      }
+      var recurrenceStart = (<p></p>);
+      if(this.props.evt.recurrenceStart !== undefined) {
+      let dateEndIndex = this.props.evt.recurrenceStart.toString().indexOf(":") - 3;
+      let recurrenceStartDate = this.props.evt.recurrenceStart.toString().substring(0, dateEndIndex);
+        recurrenceStart = (<p>Recurrence Start: {recurrenceStartDate}</p>);
+      }
+      var recurrenceEnd = (<p></p>);
+      if(this.props.evt.recurrenceEnd !== undefined) {
+      let dateEndIndex = this.props.evt.recurrenceEnd.toString().indexOf(":") - 3;
+      let recurrenceEndDate = this.props.evt.recurrenceEnd.toString().substring(0, dateEndIndex); 
+        recurrenceEnd = (<p>Recurrence End: {recurrenceEndDate}</p>);
+      }
     }
     return (
       <Modal show={this.props.isOpen} onHide={this.props.close} >
@@ -79,6 +91,8 @@ export default class EventModal extends Component {
           <p>Start Time: {startTime}</p>
           <p>End Time: {endTime}</p>
           {recurringElement}
+          {recurrenceStart}
+          {recurrenceEnd}
         </Modal.Body>
       </Modal>
     );

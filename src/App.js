@@ -17,8 +17,8 @@ export default class Calendar extends Component {
       newModalOpen  : false,
       selectedEvent : null,
       events        : [ 
-           {id: 0, title: "test event", start: moment().toDate(), end: moment().toDate(), startTime: moment().hours() * 3600, endTime: moment().hours() * 3600 + 5 * 60, recurringDays: [0, 1], desc: "Description", color: "#FF0000"},
-           {id: 1, title: "test event 2", start: moment().toDate(), end: moment().toDate(), startTime: moment().add(1, "hours").hours() * 3600, endTime: moment().add(1, "hours").hours() * 3600 + 5 * 60, recurringDays: [2, 4], desc: "Description"}
+           {id: 0, title: "test event", start: moment().set("minutes", 0).toDate(), end: moment().set("minutes", 5).toDate(), startTime: moment().hours() * 3600, endTime: moment().hours() * 3600 + 5 * 60, recurringDays: [0, 1], desc: "Description", color: "#FF0000"},
+           {id: 1, title: "test event 2", start: moment().add(1, "hours").set("minutes", 0).toDate(), end: moment().add(1, "hours").set("minutes", 5).toDate(), startTime: moment().add(1, "hours").hours() * 3600, endTime: moment().add(1, "hours").hours() * 3600 + 5 * 60, recurringDays: [2, 4], desc: "Description"}
       ]
     };
   }
@@ -56,17 +56,22 @@ export default class Calendar extends Component {
       let startDateDay = startDate.day();
       let endDate = moment(evt["end"]);
       while(startDate.isBefore(endDate)) {
+        console.log(recurringDayValues);
+        console.log(startDate.day());
         if(recurringDayValues.indexOf(startDate.day()) !== -1) {
           let evtCopy = Object.assign({}, evt);
           evtCopy["start"] = startDate.toDate();
           evtCopy["end"] = startDate.toDate();
+          evtCopy["end"].setHours(evt["end"].getHours());
+          evtCopy["end"].setMinutes(evt["end"].getMinutes());
           evtCopy["recurrenceStart"] = recurrenceStart;
           evtCopy["recurrenceEnd"] = recurrenceEnd;
           events.push(evtCopy);
         }
-        let nextDateDay = startDate.add(1, "days").day();
+        let startDateClone = moment(startDate);
+        let nextDateDay = startDateClone.add(1, "days").day();
         if(nextDateDay === startDateDay) {
-            startDate = startDate.add(1, "weeks");
+            startDate = startDate.add(8, "days");
         }
         else {
             startDate = startDate.add(1, "days");
@@ -81,6 +86,8 @@ export default class Calendar extends Component {
           let evtCopy = Object.assign({}, evt);
           evtCopy["start"] = startDate.toDate();
           evtCopy["end"] = startDate.toDate();
+          evtCopy["end"].setHours(evt["end"].getHours());
+          evtCopy["end"].setMinutes(evt["end"].getMinutes());
           evtCopy["recurrenceStart"] = recurrenceStart;
           evtCopy["recurrenceEnd"] = recurrenceEnd;
           events.push(evtCopy);
@@ -95,6 +102,8 @@ export default class Calendar extends Component {
         let evtCopy = Object.assign({}, evt);
         evtCopy["start"] = startDate.toDate();
         evtCopy["end"] = startDate.toDate();
+        evtCopy["end"].setHours(evt["end"].getHours());
+        evtCopy["end"].setMinutes(evt["end"].getMinutes());
         evtCopy["recurrenceStart"] = recurrenceStart;
         evtCopy["recurrenceEnd"] = recurrenceEnd;
         events.push(evtCopy);

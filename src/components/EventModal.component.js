@@ -28,7 +28,13 @@ export default class EventModal extends Component {
       dateEndIndex = this.props.evt.end.toString().indexOf(":") - 3;
       endDate = this.props.evt.end.toString().substring(0, dateEndIndex); 
       var startHours = Math.floor(this.props.evt.startTime/3600);
-      var startMinutes = this.props.evt.startTime%(3600 * startHours)/60;
+      var startMinutes = this.props.evt.startTime;
+      if(startHours !== 0) {
+        startMinutes = startMinutes % (3600 * startHours)/60;
+      }
+      else {
+        startMinutes = startMinutes/60;
+      }
       var startHoursText = "";
       var startMinutesText = "";
       if(startHours < 10) {

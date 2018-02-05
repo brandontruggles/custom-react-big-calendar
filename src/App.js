@@ -56,8 +56,6 @@ export default class Calendar extends Component {
       let startDateDay = startDate.day();
       let endDate = moment(evt["end"]);
       while(startDate.isBefore(endDate)) {
-        console.log(recurringDayValues);
-        console.log(startDate.day());
         if(recurringDayValues.indexOf(startDate.day()) !== -1) {
           let evtCopy = Object.assign({}, evt);
           evtCopy["start"] = startDate.toDate();

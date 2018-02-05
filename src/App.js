@@ -39,10 +39,26 @@ export default class Calendar extends Component {
   addEvent = (evt) => { 
     var events = this.state.events;
     evt["id"] = events.length;
-    evt["start"].setHours(Math.floor(evt["startTime"]/3600));
-    evt["start"].setMinutes(evt["startTime"]%(3600 * Math.floor(evt["startTime"]/3600))/60);
-    evt["end"].setHours(Math.floor(evt["endTime"]/3600));
-    evt["end"].setMinutes(evt["endTime"]%(3600 * Math.floor(evt["endTime"]/3600))/60);
+    var startHours = Math.floor(evt["startTime"]/3600);
+    var startMinutes = startHours;
+    if(startHours !== 0) {
+      startMinutes = evt["startTime"] % (3600 * Math.floor(startHours))/60;
+    }
+    else {
+      startMinutes = evt["startTime"]/60;
+    }
+    var endHours = Math.floor(evt["endTime"]/3600);
+    var endMinutes = endHours;
+    if(endHours !== 0) {
+      endMinutes = evt["endTime"] % (3600 * Math.floor(endHours))/60;
+    }
+    else {
+      endMinutes = evt["endTime"]/60;
+    }
+    evt["start"].setHours(startHours);
+    evt["start"].setMinutes(startMinutes);
+    evt["end"].setHours(endHours);
+    evt["end"].setMinutes(endMinutes);
     var recurringDays = evt["recurringDays"];
     var recurringDayValues = [];
     var recurrenceStart = evt["start"];

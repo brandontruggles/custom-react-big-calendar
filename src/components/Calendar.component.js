@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import BigCalendar from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 BigCalendar.momentLocalizer(moment);
 
@@ -18,6 +17,7 @@ export default class Calendar extends BigCalendar {
   propGetter(evt, start, end, isSelected) {
     var style = {};
     if(evt.color) {
+      style.fontSize="12px";
       style.backgroundColor = evt.color;
     }
     return {style: style};

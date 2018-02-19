@@ -16,3 +16,7 @@ h1, h2 {
 #eventButton {
   margin-bottom: 10px;
 }
+
+.rbc-event-content {
+  white-space: normal !important;
+}

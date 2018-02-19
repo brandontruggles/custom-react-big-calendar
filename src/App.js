@@ -6,6 +6,7 @@ import NewEventModal from './components/NewEventModal.component';
 import moment from 'moment';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './App.css';
 
 
@@ -17,8 +18,8 @@ export default class Calendar extends Component {
       newModalOpen  : false,
       selectedEvent : null,
       events        : [ 
-           {id: 0, title: "test event", start: moment().set("minutes", 0).toDate(), end: moment().set("minutes", 5).toDate(), startTime: moment().hours() * 3600, endTime: moment().hours() * 3600 + 5 * 60, recurringDays: [0, 1], desc: "Description", color: "#FF0000"},
-           {id: 1, title: "test event 2", start: moment().add(1, "hours").set("minutes", 0).toDate(), end: moment().add(1, "hours").set("minutes", 5).toDate(), startTime: moment().add(1, "hours").hours() * 3600, endTime: moment().add(1, "hours").hours() * 3600 + 5 * 60, recurringDays: [2, 4], desc: "Description"}
+           {id: 0, title: "long test event nameeeeeeee", start: moment().set("minutes", 0).toDate(), end: moment().set("minutes", 5).toDate(), startTime: moment().hours() * 3600, endTime: moment().hours() * 3600 + 5 * 60, recurringDays: [0, 1], desc: "Description", color: "#FF0000"},
+           {id: 1, title: "long test event nameeeeeeee", start: moment().add(1, "hours").set("minutes", 0).toDate(), end: moment().add(1, "hours").set("minutes", 5).toDate(), startTime: moment().add(1, "hours").hours() * 3600, endTime: moment().add(1, "hours").hours() * 3600 + 5 * 60, recurringDays: [2, 4], desc: "Description"}
       ]
     };
   }

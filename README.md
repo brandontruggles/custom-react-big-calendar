@@ -1,6 +1,6 @@
 custom-react-big-calendar
 ===
-a
+
 A custom implementation of [react-big-calendar](https://github.com/intljusticemission/react-big-calendar) for a personal project of mine. This implementation supports dynamically adding events with the use of a modal which presents the user with a series of options. Recurring events are also supported.
 
 Installation/Usage

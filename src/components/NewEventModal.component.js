@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, FormControl, FormGroup, Label} from 'react-bootstrap';
-import DatePicker from 'react-bootstrap-date-picker';
+import DatePicker from 'react-16-bootstrap-date-picker';
 import TimePicker from 'react-bootstrap-time-picker';
 import Select from 'react-select';
 import moment from 'moment';

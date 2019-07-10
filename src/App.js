@@ -37,7 +37,8 @@ export default class Calendar extends Component {
     this.setState({newModalOpen: !this.state.newModalOpen});
   }
 
-  addEvent = (evt) => { 
+  addEvent = (evt) => {
+		console.log("hello");
     var events = this.state.events;
     evt["id"] = events.length;
     var startHours = Math.floor(evt["startTime"]/3600);

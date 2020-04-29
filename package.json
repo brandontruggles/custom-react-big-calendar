@@ -5,7 +5,7 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "create-react-class": "^15.6.3",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "moment": "^2.20.1",
     "popper.js": "^1.12.9",
     "rc-time-picker": "^3.2.1",

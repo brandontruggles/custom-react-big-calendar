@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^3.3.6",
+    "bootstrap": "^3.4.1",
     "create-react-class": "^15.6.3",
     "jquery": "^3.3.1",
     "moment": "^2.20.1",

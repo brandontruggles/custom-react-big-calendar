@@ -21,7 +21,7 @@
     "react-datepicker": "^1.1.0",
     "react-dates": "^16.2.1",
     "react-dom": "^16.8.6",
-    "react-scripts": "1.1.0",
+    "react-scripts": "5.0.1",
     "react-select": "^1.2.1",
     "react-transition-group": "^2.2.1",
     "reactstrap": "^5.0.0-alpha.3"
